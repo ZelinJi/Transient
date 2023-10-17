@@ -1,22 +1,21 @@
 import pandas as pd
 import os
-import csv
 
 # 创建一个空的DataFrame来存储所有数据
-# combined_data = pd.DataFrame()
+combined_data = pd.DataFrame()
 
 # 设置CSV文件所在的目录
 csv_directory = './selfmake_dataset'
 
 i = 0
+dfs = []
 # 遍历目录中的CSV文件
-with open('existing_file.csv', mode='a', newline='') as file:
-    for filename in os.listdir(csv_directory):
-        if filename.endswith('.csv'):
-            i += 1
-            if i % 1000 == 0:
-                print('Processing file %d...' % i)
-            csv_path = os.path.join(csv_directory, filename)
+for filename in os.listdir(csv_directory):
+    if filename.endswith('.csv'):
+        i += 1
+        if i % 1000 == 0:
+            print('Processing file %d...' % i)
+        csv_path = os.path.join(csv_directory, filename)
 
         # 从CSV文件中读取数据
         df = pd.read_csv(csv_path)
@@ -41,4 +40,8 @@ with open('existing_file.csv', mode='a', newline='') as file:
         # 添加标签列
         # df['Label'] = [transient_type, id, modulation, SNR, number_of_items, data1, data2, data3, data4]
 
+        dfs.append(df)
+
+combined_data = pd.concat(dfs, ignore_index=True)
+combined_data.to_csv('radar_data.csv', index=False)
 
