@@ -52,24 +52,37 @@ def to_amp_phase(X_train,X_val,X_test,nsamples):
     return (X_train,X_val,X_test)
     
 # def load_data(filename=r'/home/xujialang/ZhangFuXin/AMR/tranining/RML2016.10a_dict.pkl'):
-def load_data(filename=r"../RML2016.10a_dict.dat"):
-    Xd =pickle.load(open(filename,'rb'),encoding='iso-8859-1') #Xd(120W,2,128) 10calss*20SNR*6000samples
-    mods,snrs = [sorted(list(set([k[j] for k in Xd.keys()]))) for j in [0,1] ] #mods['8PSK', 'AM-DSB', 'BPSK', 'CPFSK', 'GFSK', 'PAM4', 'QAM16', 'QAM64', 'QPSK', 'WBFM']
+def load_data(filename=r"../dataset/radar_data.pkl"):
+    Xd =pickle.load(open(filename,'rb'),encoding='iso-8859-1') #Xd(120W,2,128)
+    snrs, mods, trans = map(lambda j: sorted(list(set(map(lambda x: x[j], Xd.keys())))), [2, 1, 0])
     X = []
     lbl = []
     train_idx=[]
     val_idx=[]
-    np.random.seed(2016)
+    np.random.seed(2023)
     a=0
 
-    for mod in mods:
-        for snr in snrs:
-            X.append(Xd[(mod,snr)])     #ndarray(6000,2,128)
-            for i in range(Xd[(mod,snr)].shape[0]):
-                lbl.append((mod,snr))
-            train_idx+=list(np.random.choice(range(a*1000,(a+1)*1000), size=600, replace=False))
-            val_idx+=list(np.random.choice(list(set(range(a*1000,(a+1)*1000))-set(train_idx)), size=200, replace=False))
-            a+=1
+    for tran in trans:
+        if tran == 'frequency converte':
+            for mod in mods[0:3]:
+                for snr in snrs:
+                    X.append(Xd[(tran, mod, snr)])  # ndarray(6000,2,128)
+                    for i in range(Xd[(tran, mod, snr)].shape[0]):
+                        lbl.append((tran, mod, snr))
+                    train_idx += list(np.random.choice(range(a * 100, (a + 1) * 100), size=60, replace=False))
+                    val_idx += list(np.random.choice(list(set(range(a * 100, (a + 1) * 100)) - set(train_idx)), size=20,
+                                                     replace=False))
+                    a += 1
+        else:
+            for mod in mods[3:]:
+                for snr in snrs:
+                    X.append(Xd[(tran, mod, snr)]) #ndarray(6000,2,128)
+                    for i in range(Xd[(tran, mod, snr)].shape[0]):
+                        lbl.append((tran, mod, snr))
+                    train_idx+=list(np.random.choice(range(a*100,(a+1)*100), size=60, replace=False))
+                    val_idx+=list(np.random.choice(list(set(range(a*100,(a+1)*100))-set(train_idx)), size=20, replace=False))
+                    a+=1
+
     X = np.vstack(X)
     n_examples=X.shape[0]
     test_idx = list(set(range(0,n_examples))-set(train_idx)-set(val_idx))
@@ -108,7 +121,7 @@ def load_data(filename=r"../RML2016.10a_dict.dat"):
     # X_train=X_train.swapaxes(2,1)
     # X_val=X_val.swapaxes(2,1)
     # X_test=X_test.swapaxes(2,1)
-    return (mods,snrs,lbl),(X_train,Y_train),(X_val,Y_val),(X_test,Y_test),(train_idx,val_idx,test_idx)
+    return (trans, mods, snrs,lbl),(X_train,Y_train),(X_val,Y_val),(X_test,Y_test),(train_idx,val_idx,test_idx)
 
 if __name__ == '__main__':
-    (mods, snrs, lbl), (X_train, Y_train),(X_val,Y_val), (X_test, Y_test), (train_idx,val_idx,test_idx) = load_data()
+    (trans, mods, snrs, lbl), (X_train, Y_train),(X_val,Y_val), (X_test, Y_test), (train_idx,val_idx,test_idx) = load_data()

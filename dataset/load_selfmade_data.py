@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import pickle
+import numpy as np
 
 def read_label (hea_file):
     hea_path = os.path.join(hea_file)
@@ -42,8 +43,9 @@ for i in range (459):
     label = read_label('S%d.hea' % sort_num_list[i*100])
     print('Processing %s %s %s' % label)
     for j in range (100):
-        df.append(pd.read_csv('S%d.csv' %sort_num_list[0]).values)
-    data[label] = df
+        signal = np.transpose(pd.read_csv('S%d.csv' %sort_num_list[i*100 + j]).values) # 999 * 2 to 2 * 999
+        df.append(signal)
+    data[label] = np.stack(df) # 100 * 2 * 999
 
 with open(os.path.join(SaveFile_Path, SaveFile_Name),'wb') as f:
     pickle.dump(data, f)
