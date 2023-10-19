@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 from numpy import linalg as la 
 
-maxlen = 999
+maxlen = 128
 def l2_normalize(x, axis=-1):
     y = np.max(np.sum(x ** 2, axis, keepdims=True), axis, keepdims=True)
     return x / np.sqrt(y)
@@ -11,9 +11,9 @@ def l2_normalize(x, axis=-1):
 def norm_pad_zeros(X_train,nsamples):
     print ("Pad:", X_train.shape)
     for i in range(X_train.shape[0]):
-        X_train[i,:,0] = X_train[i,:,0]/la.norm(X_train[i,:,0],2)
+        X_train[i,:,0] = X_train[i,:,0] / la.norm(X_train[i,:,0],2)
+        X_train[i,:,1] = X_train[i,:,1] / la.norm(X_train[i,:,1],2)
     return X_train
-
 
 def to_amp_phase(X_train,X_val,X_test, nsamples):
     X_train_cmplx = X_train[:,0,:] + 1j* X_train[:,1,:]

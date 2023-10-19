@@ -16,6 +16,7 @@ if len(gpu_list) > 0:
 else:
    print("Got no GPUs")
 
+from tensorflow.keras.layers import LayerNormalization
 from LSTM2_args import get_args
 args = get_args()
 
@@ -28,6 +29,7 @@ class LSTMModel(tf.keras.Model):
     def __init__(self, input_size=2, hidden_size=128, output_size=9):
         super(LSTMModel, self).__init__()
         self.hidden_size = hidden_size
+        self.layer_norm = LayerNormalization()
         self.w_ih1 = self.add_weight(shape=(input_size, 4 * hidden_size))
         self.w_hh1 = self.add_weight(shape=(hidden_size, 4 * hidden_size))
         self.b_ih1 = self.add_weight(shape=(4 * hidden_size,))
@@ -42,8 +44,10 @@ class LSTMModel(tf.keras.Model):
     def call(self, inputs):
         # print ('1:', tf.shape(inputs), '2:',print (inputs.shape))
         batch_size = tf.shape(inputs)[0]
+
         h1 = c1 = tf.zeros((batch_size, self.hidden_size))
         h2 = c2 = tf.zeros((batch_size, self.hidden_size))
+        inputs = self.layer_norm(inputs)
         for i in range(inputs.shape[1]):
             x = inputs[:, i, :]
             gates1 = tf.matmul(x, self.w_ih1) + self.b_ih1 + tf.matmul(h1, self.w_hh1) + self.b_hh1
