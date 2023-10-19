@@ -92,7 +92,7 @@ print('X_train.shape: ', X_train.shape, 'input shape: ', in_shp)
 y_train = Y_train
 
 ###############################################################################
-adam = keras.optimizers.Adam(lr=args.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+adam = tf.keras.optimizers.Adam(lr=args.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 
 # 编译模型
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy','mse','mae','mape'])
