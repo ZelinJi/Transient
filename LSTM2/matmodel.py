@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 import mltools,rmldataset2016
 
 class LSTMModel(tf.keras.Model):
-    def __init__(self, input_size=2, hidden_size=128, output_size=11):
+    def __init__(self, input_size=2, hidden_size=128, output_size=9):
         super(LSTMModel, self).__init__()
         self.hidden_size = hidden_size
         self.w_ih1 = self.add_weight(shape=(input_size, 4 * hidden_size))
@@ -69,7 +69,7 @@ class LSTMModel(tf.keras.Model):
         return out_softmax
 
 # 创建模型实例
-model = LSTMModel(input_size=2, hidden_size=128, output_size=11)
+model = LSTMModel(input_size=2, hidden_size=128, output_size=9)
 
 # ###############################################################################
 # # 随机生成训练数据
