@@ -42,7 +42,6 @@ class LSTMModel(tf.keras.Model):
     def call(self, inputs):
         # print ('1:', tf.shape(inputs), '2:',print (inputs.shape))
         batch_size = tf.shape(inputs)[0]
-        print('batch_size: ', batch_size)
         h1 = c1 = tf.zeros((batch_size, self.hidden_size))
         h2 = c2 = tf.zeros((batch_size, self.hidden_size))
         for i in range(inputs.shape[1]):
@@ -83,9 +82,9 @@ model = LSTMModel(input_size=2, hidden_size=128, output_size=11)
 # ################################################################################
 
 ##################################################################################
-print(f'RML2016.a')
+print(f'loding radar dataset...')
 
-(mods,snrs,lbl),(X_train,Y_train),(X_val,Y_val),(X_test,Y_test),(train_idx,val_idx,test_idx) = \
+(trans, mods, snrs, lbl), (X_train, Y_train),(X_val,Y_val), (X_test, Y_test), (train_idx,val_idx,test_idx) = \
     rmldataset2016.load_data()
 
 in_shp = list(X_train.shape[1:])

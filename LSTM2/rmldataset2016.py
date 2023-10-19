@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 from numpy import linalg as la 
 
-maxlen=128
+maxlen = 999
 def l2_normalize(x, axis=-1):
     y = np.max(np.sum(x ** 2, axis, keepdims=True), axis, keepdims=True)
     return x / np.sqrt(y)
@@ -15,7 +15,7 @@ def norm_pad_zeros(X_train,nsamples):
     return X_train
 
 
-def to_amp_phase(X_train,X_val,X_test,nsamples):
+def to_amp_phase(X_train,X_val,X_test, nsamples):
     X_train_cmplx = X_train[:,0,:] + 1j* X_train[:,1,:]
     X_val_cmplx = X_val[:,0,:] + 1j* X_val[:,1,:]
     X_test_cmplx = X_test[:,0,:] + 1j* X_test[:,1,:]
@@ -92,16 +92,17 @@ def load_data(filename=r"../dataset/radar_data.pkl"):
     X_train = X[train_idx]
     X_val=X[val_idx]
     X_test =  X[test_idx]
+
     def to_onehot(yy):
         # yy1 = np.zeros([len(yy), max(yy)+1])
-        yy1 = np.zeros([len(yy), len(mods)])
+        yy1 = np.zeros([len(yy), len(trans)])
         yy1[np.arange(len(yy)), yy] = 1
         return yy1
-    Y_train = to_onehot(list(map(lambda x: mods.index(lbl[x][0]), train_idx)))
-    Y_val=to_onehot(list(map(lambda x: mods.index(lbl[x][0]), val_idx)))
-    Y_test = to_onehot(list(map(lambda x: mods.index(lbl[x][0]),test_idx)))
+    Y_train = to_onehot(list(map(lambda x: trans.index(lbl[x][0]), train_idx)))
+    Y_val=to_onehot(list(map(lambda x: trans.index(lbl[x][0]), val_idx)))
+    Y_test = to_onehot(list(map(lambda x: trans.index(lbl[x][0]),test_idx)))
 
-    X_train,X_val,X_test = to_amp_phase(X_train,X_val,X_test,128)
+    X_train,X_val,X_test = to_amp_phase(X_train,X_val,X_test, 999)
 
     X_train = X_train[:,:maxlen,:]
     X_val = X_val[:,:maxlen,:]
