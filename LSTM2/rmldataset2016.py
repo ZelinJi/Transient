@@ -2,7 +2,7 @@
 import numpy as np
 from numpy import linalg as la 
 
-maxlen = 999
+maxlen = 128
 def l2_normalize(x, axis=-1):
     y = np.max(np.sum(x ** 2, axis, keepdims=True), axis, keepdims=True)
     return x / np.sqrt(y)

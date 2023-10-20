@@ -1,7 +1,6 @@
+This branch only considers the LFM modulation.
+
 Trained and tested with Python 3.8 + TensorFlow 2.4.1.
-
-How to use the code:
-
 
 How to use the code:
 
