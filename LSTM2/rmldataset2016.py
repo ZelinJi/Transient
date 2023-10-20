@@ -51,7 +51,7 @@ def to_amp_phase(X_train,X_val,X_test, nsamples):
     return (X_train,X_val,X_test)
     
 # def load_data(filename=r'/home/xujialang/ZhangFuXin/AMR/tranining/RML2016.10a_dict.pkl'):
-def load_data(filename=r"../dataset/radar_data.pkl"):
+def load_data(filename=r"../dataset/radar_data_LFM.pkl"):
     Xd =pickle.load(open(filename,'rb'),encoding='iso-8859-1') #Xd(120W,2,128)
     snrs, mods, trans = map(lambda j: sorted(list(set(map(lambda x: x[j], Xd.keys())))), [2, 1, 0])
     X = []
