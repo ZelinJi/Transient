@@ -16,8 +16,8 @@ def read_label (hea_file):
         symbol_rate = hea_file.readline().strip()
         xFSK = hea_file.readline().strip()
         data4 = hea_file.readline().strip()
-        if transient_type == 'frequency converte':
-            return (transient_type, xFSK, SNR)
+        # if transient_type == 'frequency converte':
+        #     return (transient_type, xFSK, SNR)
         return (transient_type, modulation, SNR)
 
 Folder_Path = r'./selfmake_dataset/'  # 要拼接的文件夹及其完整路径，注意不要包含中文
