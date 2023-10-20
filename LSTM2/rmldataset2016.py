@@ -1,5 +1,4 @@
-﻿"Adapted from the code (https://github.com/leena201818/radiom) contributed by leena201818"
-import pickle
+﻿import pickle
 import numpy as np
 from numpy import linalg as la 
 

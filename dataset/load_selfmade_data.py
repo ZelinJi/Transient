@@ -36,7 +36,6 @@ for file in file_list:
 print("finishing sorting nums...")
 
 data = {}
-# 读取第一个CSV文件并包含表头
 
 for i in range (459):
     df = []

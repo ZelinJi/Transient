@@ -1,6 +1,4 @@
-﻿# Import all the things we need ---
-#   by setting env variables before Keras import you can set up which backend and which GPU it uses
-import os,random
+﻿import os,random
 os.environ["KERAS_BACKEND"] = "tensorflow"
 os.environ["CUDA_VISIBLE_DEVICES"] = '0, 1, 2'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
