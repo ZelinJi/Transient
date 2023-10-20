@@ -62,25 +62,24 @@ def load_data(filename=r"../dataset/radar_data.pkl"):
     a=0
 
     for tran in trans:
-        if tran == 'frequency converte':
-            for mod in mods[0:3]:
-                for snr in snrs:
-                    X.append(Xd[(tran, mod, snr)])  # ndarray(6000,2,128)
-                    for i in range(Xd[(tran, mod, snr)].shape[0]):
-                        lbl.append((tran, mod, snr))
-                    train_idx += list(np.random.choice(range(a * 100, (a + 1) * 100), size=60, replace=False))
-                    val_idx += list(np.random.choice(list(set(range(a * 100, (a + 1) * 100)) - set(train_idx)), size=20,
-                                                     replace=False))
-                    a += 1
-        else:
-            for mod in mods[3:]:
-                for snr in snrs:
-                    X.append(Xd[(tran, mod, snr)]) #ndarray(6000,2,128)
-                    for i in range(Xd[(tran, mod, snr)].shape[0]):
-                        lbl.append((tran, mod, snr))
-                    train_idx+=list(np.random.choice(range(a*100,(a+1)*100), size=60, replace=False))
-                    val_idx+=list(np.random.choice(list(set(range(a*100,(a+1)*100))-set(train_idx)), size=20, replace=False))
-                    a+=1
+        for mod in mods:
+            for snr in snrs:
+                X.append(Xd[(tran, mod, snr)])  # ndarray(6000,2,128)
+                for i in range(Xd[(tran, mod, snr)].shape[0]):
+                    lbl.append((tran, mod, snr))
+                train_idx += list(np.random.choice(range(a * 100, (a + 1) * 100), size=60, replace=False))
+                val_idx += list(np.random.choice(list(set(range(a * 100, (a + 1) * 100)) - set(train_idx)), size=20,
+                                                 replace=False))
+                a += 1
+        # else:
+        #     for mod in mods[3:]:
+        #         for snr in snrs:
+        #             X.append(Xd[(tran, mod, snr)]) #ndarray(6000,2,128)
+        #             for i in range(Xd[(tran, mod, snr)].shape[0]):
+        #                 lbl.append((tran, mod, snr))
+        #             train_idx+=list(np.random.choice(range(a*100,(a+1)*100), size=60, replace=False))
+        #             val_idx+=list(np.random.choice(list(set(range(a*100,(a+1)*100))-set(train_idx)), size=20, replace=False))
+        #             a+=1
 
     X = np.vstack(X)
     n_examples=X.shape[0]

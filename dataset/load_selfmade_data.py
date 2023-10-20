@@ -21,7 +21,7 @@ def read_label (hea_file):
         return (transient_type, modulation, SNR)
 
 Folder_Path = r'./selfmake_dataset/'  # 要拼接的文件夹及其完整路径，注意不要包含中文
-SaveFile_Name = r'radar_data.pkl'  # 合并后要保存的文件名
+SaveFile_Name = r'radar_data_LFM.pkl'  # 合并后要保存的文件名
 SaveFile_Path = r'../'  # 拼接后要保存的文件路径
 
 # 修改当前工作目录
@@ -37,7 +37,7 @@ print("finishing sorting nums...")
 
 data = {}
 
-for i in range (459):
+for i in range (136):
     df = []
     label = read_label('S%d.hea' % sort_num_list[i*100])
     print('Processing %s %s %s' % label)
